@@ -5,7 +5,7 @@ from display import display_message
 from firebase import Firebase
 from led import set_blue_light, set_green_light, set_red_light
 
-realtime_firebase = Firebase('tracking_data')
+realtime_firebase = Firebase(1, 2)
 
 # Config shit
 buttonPin = 17
@@ -18,6 +18,7 @@ while True:
     try:
         line_one, line_two, line_three = realtime_firebase.insertFirebaseRow(uniqueInteger)
         display_message(line_one, line_two, line_three)
+
         set_blue_light()
 
         if button.is_pressed:

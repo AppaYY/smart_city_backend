@@ -11,14 +11,14 @@ path = str(pathlib.Path(__file__).parent.absolute())
 
 class Firebase:
     # CONSTRUCTOR WITH CONNECTION
-    def __init__(self, row):
+    def __init__(self, city_id, street_id):
         cred = credentials.Certificate(path + '/FirebaseKey.json')
         
         firebase_admin.initialize_app(cred, {
             'databaseURL': 'https://smartcity-75e0e-default-rtdb.firebaseio.com/'
         })
-        self.row = row
-        self.ref = db.reference(row)
+        self.row = "cities"
+        self.ref = db.reference("cities")
     
     # INSERT DATA FUNCTION
     def insertFirebaseRow(self, uniqueInteger):
