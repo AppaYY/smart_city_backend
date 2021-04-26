@@ -3,6 +3,7 @@ import firebase_admin
 from firebase_admin import credentials, db
 import random
 
+from distance import calc_distance
 from datetime import datetime
 import time
 
@@ -18,16 +19,16 @@ class Firebase:
             'databaseURL': 'https://smartcity-75e0e-default-rtdb.firebaseio.com/'
         })
         self.row = "cities"
-        self.ref = db.reference("cities")
+        self.ref = db.reference("cities").child("0").child("containers").child("0").child("tracking_data")
     
     # INSERT DATA FUNCTION
     def insertFirebaseRow(self, uniqueInteger):
         # Select what row you want to insert
         insert_object = {
             u'id': uniqueInteger,
-            u'day': str(datetime.now()),
-            u'time': str(datetime.now()),
-            u'distance': random.randint(1, 99)
+            u'day': str(datetime.today().strftime("%Y-%m-%d")),
+            u'time': str(datetime.now().strftime("%H:%M:%S")),
+            u'remaining_distance': random.randint(1, 99)
         }
 
         self.ref.child(str(uniqueInteger)).set(insert_object)
