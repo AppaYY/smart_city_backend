@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import math
 
 GPIO.setmode(GPIO.BCM)
 
@@ -10,7 +11,7 @@ GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(ECHO, GPIO.IN)
 
 def calc_distance():
-
+    GPIO.setwarnings(False)
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
     GPIO.output(TRIG, False)
@@ -24,9 +25,10 @@ def calc_distance():
     sig_time = end-start
 
     distance = sig_time / 0.000058
-    # print('Distance: {} centimeters'.format(distance))
-    return distance
+    # while True
+    print(math.floor(distance))
+
+    # Return rounded down distance
+    return math.floor(distance)
 
     GPIO.cleanup()
-
-calc_distance()

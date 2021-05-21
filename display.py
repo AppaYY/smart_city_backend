@@ -2,7 +2,7 @@
 import asyncio
 import json
 import time
-import aiohttp
+# import aiohttp
 from datetime import datetime
 
 # Configuration for oled

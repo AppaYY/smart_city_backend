@@ -1,7 +1,6 @@
 # Import libraries
 import firebase_admin
 from firebase_admin import credentials, db
-import random
 
 from distance import calc_distance
 from datetime import datetime
@@ -19,24 +18,22 @@ class Firebase:
             'databaseURL': 'https://smartcity-75e0e-default-rtdb.firebaseio.com/'
         })
         self.row = "cities"
-        self.ref = db.reference("cities").child("0").child("containers").child("0").child("tracking_data")
-    
+        self.ref = db.reference("cities").child(str(city_id)).child("containers").child(str(street_id)).child("tracking_data")
+
     # INSERT DATA FUNCTION
     def insertFirebaseRow(self, uniqueInteger):
-        # Select what row you want to insert
-        insert_object = {
-            u'id': uniqueInteger,
-            u'day': str(datetime.today().strftime("%Y-%m-%d")),
-            u'time': str(datetime.now().strftime("%H:%M:%S")),
-            u'remaining_distance': random.randint(1, 99)
-        }
+        index = len(self.ref.get())
 
-        self.ref.child(str(uniqueInteger)).set(insert_object)
-        
-        print(f"Row is inserted...")
-        print(f"Updated row is {uniqueInteger}")
-        
-        return str(uniqueInteger), "Row is inserted...", str(datetime.now())
+        # Select what row you want to insert
+        # insert_object = {
+        #     u'id': index,
+        #     u'day': str(datetime.today().strftime("%Y-%m-%d")),
+        #     u'time': str(datetime.now().strftime("%H:%M:%S")),
+        #     u'remaining_distance': calc_distance()
+        # }
+
+        # self.ref.child(str(index)).set(insert_object)
+        return str(index), "Row is inserted...", str(datetime.now())
 
     
     # Clears the database table
