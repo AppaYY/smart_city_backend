@@ -1,3 +1,4 @@
+# IMPORT MODULES
 import Adafruit_ADS1x15
 import time
 
@@ -9,7 +10,13 @@ adc = Adafruit_ADS1x15.ADS1115()
 adc.start_adc(ANALOG_PORT, gain=GAIN)
 time.sleep(0.1)
 
-while True:
+def check_container_status():
     value = adc.get_last_result()
-    print(value)
-    time.sleep(0.5)
+
+    # print (value)
+    if value > 29000:
+        return "OPEN"
+    else:
+        return "CLOSE"
+
+# check_container_status()

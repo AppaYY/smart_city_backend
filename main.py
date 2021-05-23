@@ -1,36 +1,40 @@
+# IMPORT MODULES
 from math import log
 from gpiozero import Button
+import RPi.GPIO as GPIO
 import time
-
-# from display import display_message
 from firebase import Firebase
-from led import set_blue_light, set_green_light, set_red_light
-from display import display_message
 
+# IMPORT CLASSES
+from led import set_green_light, set_red_light, set_output_off
+from display import display_message, shut_oled
+from lightsensor import check_container_status
+from servo import lock_container
+
+# Initialize Firebase class
 realtime_firebase = Firebase(2, 0)
 
-# Config shit
-buttonPin = 17
-button = Button(buttonPin)
-
-uniqueInteger = 0
 while True:
-    time.sleep(1)
-
     try:
-        line_one, line_two, line_three = realtime_firebase.insertFirebaseRow(uniqueInteger)
+        time.sleep(1)
+        # LIGHT SENSOR CHECK IF VALUE RETURNS OPEN
+        if check_container_status() == "OPEN":
+            realtime_firebase.insert_Firebase_Row()
+        else :
+            # print(realtime_firebase.get_container_info("status"))
+            if realtime_firebase.get_container_info("status") == "True":
+                set_green_light()
+                lock_container("False")
+            else:
+                set_red_light()
+                lock_container("True")
+        
+        GPIO.setmode(GPIO.BCM) # Use physical pin numbering
+        GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-        # set_blue_light()
-        # print(button.is_pressed)
-        # if button.is_pressed:
-        #     # line_one, line_two, line_three = realtime_firebase.clearTable()
-        #     # # display_message(line_one, line_two, line_three)
-        #     # set_red_light()
-        display_message(line_one, line_two, line_three)
-
-        #     print("testestt")
-        #     break
-
-        uniqueInteger += 1
+        if GPIO.input(26) == GPIO.HIGH:
+            display_message(realtime_firebase.get_city_info(), realtime_firebase.get_container_info("street_name"), realtime_firebase.get_container_info("container_depth"))
     except KeyboardInterrupt:
+        shut_oled()
+        set_output_off()
         break

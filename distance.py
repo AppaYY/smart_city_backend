@@ -1,16 +1,17 @@
+# IMPORT MODULES
 import RPi.GPIO as GPIO
 import time
 import math
 
-GPIO.setmode(GPIO.BCM)
-
-TRIG = 4
-ECHO = 18
-
-GPIO.setup(TRIG, GPIO.OUT)
-GPIO.setup(ECHO, GPIO.IN)
-
 def calc_distance():
+    GPIO.setmode(GPIO.BCM)
+
+    TRIG = 13
+    ECHO = 19
+
+    GPIO.setup(TRIG, GPIO.OUT)
+    GPIO.setup(ECHO, GPIO.IN)
+    
     GPIO.setwarnings(False)
     GPIO.output(TRIG, True)
     time.sleep(0.00001)
@@ -26,7 +27,7 @@ def calc_distance():
 
     distance = sig_time / 0.000058
     # while True
-    print(math.floor(distance))
+    # print(math.floor(distance))
 
     # Return rounded down distance
     return math.floor(distance)
