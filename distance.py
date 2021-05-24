@@ -33,3 +33,4 @@ def calc_distance():
     return math.floor(distance)
 
     GPIO.cleanup()
+# calc_distance()

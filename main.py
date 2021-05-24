@@ -37,4 +37,5 @@ while True:
     except KeyboardInterrupt:
         shut_oled()
         set_output_off()
+        # realtime_firebase.clearTable()
         break

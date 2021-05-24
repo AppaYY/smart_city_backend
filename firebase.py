@@ -26,18 +26,17 @@ class Firebase:
     # INSERT DATA FUNCTION
     def insert_Firebase_Row(self):
         index = len(self.ref.get())
+        distance = calc_distance()
         # CREATE INSERT OBJECT
         insert_object = {
             u'id': index,
             u'day': str(datetime.today().strftime("%Y-%m-%d")),
             u'time': str(datetime.now().strftime("%H:%M:%S")),
-            u'remaining_distance': calc_distance()
+            u'remaining_distance': distance
         }
         
         self.ref.child(str(index)).set(insert_object)
-
-        distance = calc_distance()
-        print(distance)
+        
         if distance < 8:
             self.status_set.set("False")
         else:

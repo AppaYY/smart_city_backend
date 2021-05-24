@@ -14,9 +14,9 @@ def check_container_status():
     value = adc.get_last_result()
 
     # print (value)
-    if value > 29000:
+    if value > 24000:
         return "OPEN"
     else:
         return "CLOSE"
 
-# check_container_status()
+# print(check_container_status())
